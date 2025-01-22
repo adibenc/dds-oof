@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  onlyoffice:
+    container_name: ooffice
+    build: .  # Builds the image from the Dockerfile in the same directory
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data:/var/www/onlyoffice/Data
+      - ./logs:/var/log/onlyoffice
+      - ./cache:/var/lib/onlyoffice
+      - ./db:/var/lib/postgresql
+    environment:
+      # - ONLYOFFICE_DATA_CONTAINER_HOST=172.17.0.1
+      - WOPI_ENABLED=true
+      - JWT_SECRET=${JWT_SECRET}  # Replace with a strong secret
+      - TZ=Asia/Jakarta # Set timezone to Indonesia (+7)
+      # Add other environment variables here as needed (see ONLYOFFICE documentation)
