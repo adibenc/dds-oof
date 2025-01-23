@@ -1,0 +1,24 @@
+x-service: 
+    &x-service-base
+    container_name: base
+    restart: always
+    expose:
+    - ${SERVICE_PORT}
+    volumes:
+    #- /app/onlyoffice/CommunityServer/data:/app/onlyoffice/data
+    - app_data:/app/onlyoffice/data
+
+services:
+  onlyoffice-health-checks-ui:
+    <<: *x-service-base
+    image: "${HUB}${REPO}/${DOCKER_IMAGE_PREFIX}-healthchecks:${DOCKER_TAG}"
+    container_name: ${HELTHCHECKS_HOST}
+
+networks:
+  default:
+    name: ${NETWORK_NAME}
+    external: true
+
+volumes:
+  app_data:
+  
